@@ -50,5 +50,8 @@
 	<classpathentry kind="lib" path="D:/temp/apache-tomcat-9.0.40/lib/websocket-api.jar"/>
 	<classpathentry kind="lib" path="D:/eclipse/custom/lombok.jar"/>
 	<classpathentry kind="lib" path="D:/downloads/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/custom/spring-expression-5.3.2.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/custom/spring-core-5.3.2.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/custom/spring-jcl-5.3.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
