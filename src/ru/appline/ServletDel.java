@@ -18,41 +18,25 @@ import com.google.gson.JsonObject;
 import ru.appline.logic.Model;
 import ru.appline.logic.User;
 
-@WebServlet(urlPatterns = "/add")
-public class ServletAdd extends HttpServlet{
+@WebServlet(urlPatterns = "/del")
+public class ServletDel extends HttpServlet{
 	
 	Model model = Model.getInstance();
 	private AtomicInteger counter = new AtomicInteger(model.getFromList().size()+1);
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		StringBuilder jb = new StringBuilder();
-		String line;
-		try {
-			BufferedReader reader  = request.getReader();
-			while ((line = reader.readLine()) != null) {
-				jb.append(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		JsonObject jobj = gson.fromJson(String.valueOf(jb), JsonObject.class);
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		String name = jobj.get("name").getAsString();
-		String surname = jobj.get("surname").getAsString();
-		double salary = jobj.get("salary").getAsDouble();
-		
-		
-		User user = new User(name, surname, salary);
-		model.add(user, counter.getAndIncrement());
-		
-		response.setContentType("application/json; charset=utf-8");
+		response.setContentType("application/json;charset=utf-8");
 		PrintWriter pw = response.getWriter();
 		
-		pw.print(gson.toJson(model.getFromList()));
+		int id = Integer.parseInt(request.getParameter("id"));
+		
+		if (model.getFromList().containsKey(id)) {
+			model.delUser(id);
+			pw.print(gson.toJson(model.getFromList()));
+		} else {
+			pw.print("wrong ID");
+		}
 		
 	}
 

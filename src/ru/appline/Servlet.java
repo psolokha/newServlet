@@ -25,7 +25,6 @@ public class Servlet extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		
 		pw.println("Hello World!");
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 
