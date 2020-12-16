@@ -3,7 +3,6 @@ package ru.appline;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +16,13 @@ import com.google.gson.JsonObject;
 import ru.appline.logic.Model;
 import ru.appline.logic.User;
 
-@WebServlet(urlPatterns = "/add")
-public class ServletAdd extends HttpServlet{
+@WebServlet(urlPatterns = "/upd")
+public class ServletPut extends HttpServlet{
 	
 	Model model = Model.getInstance();
-	private AtomicInteger counter = new AtomicInteger(model.getFromList().size()+1);
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		StringBuilder jb = new StringBuilder();
 		String line;
 		try {
@@ -39,20 +37,19 @@ public class ServletAdd extends HttpServlet{
 		JsonObject jobj = gson.fromJson(String.valueOf(jb), JsonObject.class);
 		
 		request.setCharacterEncoding("UTF-8");
+		PrintWriter pw = response.getWriter();
 		
+		int id = jobj.get("id").getAsInt();
 		String name = jobj.get("name").getAsString();
 		String surname = jobj.get("surname").getAsString();
 		double salary = jobj.get("salary").getAsDouble();
 		
-		
-		User user = new User(name, surname, salary);
-		model.add(user, counter.getAndIncrement());
-		
-		response.setContentType("application/json; charset=utf-8");
-		PrintWriter pw = response.getWriter();
-		
-		pw.print(gson.toJson(model.getFromList()));
-		
+		if (model.getFromList().containsKey(id)) {
+			User user = new User(name, surname, salary);
+			pw.print("Sucsess!");
+			model.updateUser(id, user);
+		} else {
+			pw.print("wrong UserID");
+		}
 	}
-
 }

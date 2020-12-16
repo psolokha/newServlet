@@ -37,5 +37,8 @@ public class Model implements Serializable{
 	public void delUser(int id) {
 		model.remove(id);
 	}
-
+	
+	public void updateUser(int id, User user) {
+		model.replace(id, user);
+	}
 }
